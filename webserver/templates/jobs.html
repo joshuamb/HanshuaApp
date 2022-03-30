@@ -1,0 +1,32 @@
+{%extends "base.html"%}
+{%block content%}
+  <div>{{titles}}</div>
+  <div>{{job_ids}}</div>
+  <table>
+  <tr>
+      <div>
+          <th>company</th>
+          <th>title</th>
+          <th>location</th>
+          <th>deadline</th>
+          <th>...</th>
+          {% for id in job_ids %}
+          <tr>
+              <td><div>{{companies[loop.index-1]}}</td></div>
+              <td><div>{{titles[loop.index-1]}}</td></div>
+              <td><div>{{cities[loop.index-1]}}, {{states[loop.index-1]}}</td></div>
+              <td><div>{{deadlines[loop.index-1]}}</td></div>
+              <td><div>
+                      <form action = "job_description" method = "POST">
+                          <input type = "hidden" name="job_id" value = '{{job_ids[loop.index-1]}}'>
+                          <input type = "submit" value = "more info" />
+                      </form>
+               </td></div>
+
+          </tr>
+          {% endfor %}
+      </div>
+  </tr>
+  </table>
+
+{%endblock%}

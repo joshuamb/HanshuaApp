@@ -1,23 +1,9 @@
-<html>
-  <style>
-    body{ 
-      font-size: 15pt;
-      font-family: arial;
-    }
-  </style>
-  <link rel="stylesheet" href="style.css">
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
 
+
+{% block content %}
 <body>
-    <!--header_bar-->
-  <h1>The Hanshua Job Hunting App</h1>
-  <ul>
-      <li><a href="/user">Josh</a></li>
-      <li><a href="/another">Han</a></li>
-      <li><a href="/another">Go to the other page</a></li>
-  </ul>
-  <!--header_bar-->
-
-
   <div>{{data}}</div>
   <div>
     {% for n in data %}
@@ -25,11 +11,10 @@
     {% endfor %}
   </div>
 
-<form method="POST" action="/add">
-<p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
-</form>
+  <form method="POST" action="/add">
+      <p>Name of new computer scientist:
+      <input type="text" name="name">
+      <input type="submit" value="Add"></p>
+  </form>
 
-</body>
-
-
-</html>
+{% endblock %}
