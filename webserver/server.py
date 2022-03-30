@@ -41,7 +41,7 @@ DB_PASSWORD = "0414200011231998"
 
 DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
-DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
+DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/proj1part2"
 
 
 #
@@ -120,10 +120,10 @@ def index():
   #
   # example of a database query
   #
-  cursor = g.conn.execute("SELECT name FROM test")
+  cursor = g.conn.execute("SELECT first_name FROM users WHERE first_name IS NOT NULL")
   names = []
   for result in cursor:
-    names.append(result['name'])  # can also be accessed using result[0]
+    names.append(result['first_name'])  # can also be accessed using result[0]
   cursor.close()
 
   #
@@ -172,6 +172,18 @@ def index():
 @app.route('/another')
 def another():
   return render_template("anotherfile.html")
+
+@app.route('/user')
+def user():
+    cursor = g.conn.execute("SELECT title FROM jobs NATURAL JOIN interested_in NATURAL JOIN users WHERE user_id=1 ORDER BY deadline ASC")
+    names = []
+    for result in cursor:
+        names.append(result['title'])  # can also be accessed using result[0]
+    cursor.close()
+
+    context = dict(data = names)
+
+    return render_template("user.html", **context)
 
 
 # Example of adding new data to the database
