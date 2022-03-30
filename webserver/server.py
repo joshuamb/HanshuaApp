@@ -175,13 +175,15 @@ def another():
 
 @app.route('/user')
 def user():
-    cursor = g.conn.execute("SELECT title FROM jobs NATURAL JOIN interested_in NATURAL JOIN users WHERE user_id=1 ORDER BY deadline ASC")
-    names = []
+    cursor = g.conn.execute("SELECT title,job_id FROM jobs NATURAL JOIN interested_in NATURAL JOIN users WHERE user_id=1 ORDER BY deadline ASC")
+    titles = []
+    job_ids = []
     for result in cursor:
-        names.append(result['title'])  # can also be accessed using result[0]
+        titles.append(result['title'])  # can also be accessed using result[0]
+        job_ids.append(result['job_id'])
     cursor.close()
 
-    context = dict(data = names)
+    context = dict(titles = titles, job_ids = job_ids)
 
     return render_template("user.html", **context)
 

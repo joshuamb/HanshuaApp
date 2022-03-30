@@ -17,12 +17,22 @@
   <!--header_bar-->
 
 
-  <div>{{data}}</div>
-  <div>
-    {% for n in data %}
-    <div>{{n}}</div>
-    {% endfor %}
-  </div>
+  <div>{{titles}}</div>
+  <div>{{job_ids}}</div>
+  <table>
+  <tr>
+      <div>
+          <th>id</th>
+          <th>job</th>
+          {% for id in job_ids %}
+          <tr>
+              <td><div>{{job_ids[loop.index-1]}}</td></div>
+              <td><div>{{titles[loop.index-1]}}</td></div>
+          </tr>
+          {% endfor %}
+      </div>
+  </tr>
+  </table>
 
 <form method="POST" action="/add">
 <p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
