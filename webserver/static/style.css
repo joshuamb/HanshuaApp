@@ -1,7 +1,36 @@
-body{ 
-    font-size: 15pt;
-      font-family: arial;
-    }
+/* https://isabelcastillo.com/error-info-messages-css*/
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+ 
+.info, .success, .warning, .error {
+margin: 10px 0px;
+padding:12px;
+ 
+}
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+.info i, .success i, .warning i, .error i {
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
+
+
+
+/*https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_topnav */
 
 /* Add a black background color to the top navigation */
 .topnav {
@@ -31,7 +60,7 @@ body{
   color: white;
 }
 
-
+/*https://www.w3schools.com/html/html_tables.asp*/
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;

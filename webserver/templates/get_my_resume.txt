@@ -1,0 +1,59 @@
+<h2>Skills</h2>
+<table id="1" class="display">
+    <thead>
+        <tr><td>LinkedIn Skills</td></tr>
+    </thead>
+    <tbody>
+        {%for n in skills%}
+        <tr>
+            <td>{{n['skill']}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+
+<h2>Education</h2>
+<table id="3" class="display">
+    <thead>
+        <tr><td>Degree Area</td>
+            <td>Degree Level</td>
+        </tr>
+    </thead>
+    <tbody>
+        {%for n in education%}
+        <tr>
+            <td>{{n['subject']}}</td>
+            <td>{{n['level']}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+<h2>Experiences</h2>
+<table id="2" class="display">
+    <thead>
+        <tr>
+            <th>Start</th>
+            <th>Stop</th>
+            <th>Title</th>
+            <th>Institution</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for n in experiences%}
+        <tr>
+            <td>{{n['start']}}</td>
+            <td>{{n['stop']}}</td>
+            <td>{{n['title']}}</td>
+            <td>{{n['institution']}}</td>
+            <td>{{n['description']}}</td>
+            <td>{{n['location']}}</td>
+            <td>{{n['category']}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>

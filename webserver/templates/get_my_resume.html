@@ -1,0 +1,57 @@
+<center><h1>{{userdata['first_name']}} {{userdata['last_name']}}</h1></center>
+<center><h3>{{userdata['email']}} | {{userdata['phone']}} |
+{{userdata['address']}} </h3></center>
+<hr />
+
+<table>
+<tr>
+<td width='30%'>
+<h2>Education</h2>
+<table id="3" class="display">
+    <tbody>
+        {%for n in education%}
+        <tr>
+            <td>{{n['subject']}}</td>
+            <td>{{n['level']}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+</td>
+<td width='70%'>
+<h2>About Me</h2>
+<p>{{userdata['bio']}}</p> 
+<p></p>
+My top skills include: {%for n in skills%} {{n['skill']}} {%endfor%}
+</td>
+</tr>
+</table>
+
+<hr />
+
+
+<h2>Experiences</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Start</th>
+            <th>Stop</th>
+            <th>Title</th>
+            <th>Institution</th>
+            <th>Description</th>
+            <th>Location</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for n in experiences%}
+        <tr>
+            <td>{{n['start']}}</td>
+            <td>{{n['stop']}}</td>
+            <td>{{n['title']}}</td>
+            <td>{{n['institution']}}</td>
+            <td>{{n['description']}}</td>
+            <td>{{n['location']}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>

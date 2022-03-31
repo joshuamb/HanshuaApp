@@ -3,13 +3,7 @@
 
 
 {% block content %}
-<body>
-  <div>{{data}}</div>
-  <div>
-    {% for n in data %}
-    <div>{{n}}</div>
-    {% endfor %}
-  </div>
+<p>Welcome, {{first_name}}.</p>
 
   <form method="POST" action="/add">
       <p>Name of new computer scientist:

@@ -5,34 +5,62 @@
     {% block head %}
     <head>
         <link rel="stylesheet" href="static/style.css">
+        <!--https://www.topcoder.com/thrive/articles/interactive-html-tables-using-datatables-->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
         <title>{% block title %}Hanshua Job Hunting App{% endblock %}</title>
     </head>
     {% endblock %}
 
     <body>
+        <!--flash messages here-->
+        <!--flash https://stackoverflow.com/questions/2193670/catching-sqlalchemy-exceptions-->
+        <!--https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/-->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endwith %}
+        <!--flash messages here-->
+
         <!--header_bar-->
         <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_topnav-->
         <h1>The Hanshua Job Hunting App</h1>
 
         <div class="topnav">
-            <a href="index">Home</a>
+            <a href="/">Home</a>
             <a href="jobs">All Jobs</a>
-            <a href="logout">Logout</a>
+            <a href="my_jobs">My Jobs</a>
+            <a href="portfolio">Portfolio</a>
+            <a href="contact_book">Contact Book</a>
             <a href="about">About</a>
+            <a href="account_profile">Account</a>
+            <a href="logout">Logout</a>
         </div>
         <!--header_bar-->
 
-        <p></p>
 
+
+        <p></p>
         <!--main body content-->
         <div id="content">{% block content %}Hi! This site is still being designed. Check back soon!{% endblock %}</div>
         <!--main body content-->
+
         <p></p>
         <div id="footer">
             {% block footer %}
             &copy; Copyright 2022 by Hanshua.
             {% endblock %}
         </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>        
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>        
+        <script type="text/javascript">
+            <!--allows up to four tables -->
+            $(document).ready(function () {$('#table_id').DataTable();});
+            $(document).ready(function () {$('#1').DataTable();});
+            $(document).ready(function () {$('#2').DataTable();});
+            $(document).ready(function () {$('#3').DataTable();});
+        </script>
 
     </body>
 </html>

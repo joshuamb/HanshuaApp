@@ -1,0 +1,55 @@
+{%extends "base.html"%}
+{%block content%}
+<h2>Contacts</h2>
+<h3>Add New Contact</h3>
+<form action="modify_portfolio" method="POST">
+    <input type="hidden" name="whichform" value='add_contact'>
+    <table>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Title</th>
+            <th>Job Association</th>
+        </tr>
+        <tr>
+            <td><input type = "input" name="full_name" value = ''></td>
+            <td><input type = "input" name="email" value = ''></td>
+            <td><input type = "input" name="title" value = ''></td>
+            <td>
+                <select name="job_id">
+                    {%for job in all_jobs%}
+                    <option value='{{job['job_id']}}'>{{job['title']}} at: {{job['company']}}</option>
+                    {%endfor%}
+                </select>
+            </td>
+            <td><input type = "submit" value = "add" /></td>
+        </tr>
+    </table>
+</form>
+
+
+<p></p><h3>Current Contact Book</h3>
+<table id="2" class="display">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Title</th>
+            <th>Job Association</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for n in contacts%}
+        {{n}}
+        <tr>
+            <td>{{n['full_name']}}</td>
+            <td>{{n['email']}}</td>
+            <td>{{n['title']}}</td>
+            <td>Associated with position: {{n['jobtitle']}} at: {{n['company']}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+{%endblock%}
+

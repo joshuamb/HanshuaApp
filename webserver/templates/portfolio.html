@@ -1,0 +1,164 @@
+{%extends "base.html"%}
+{%block content%}
+<a href="get_my_resume">Get My Plaintext Resume</a> (profile information can be managed through the Account Tab).
+<hr /><h2>Skills</h2>
+
+
+<h3>Add New Skills</h3>
+
+<form action = "modify_portfolio" method = "POST">
+    <input type = "hidden" name="whichform" value = 'addskill'>
+    <table>
+        <tr>
+            <th>New Skill</th>
+            <th>Submit</th>
+        </tr>
+        <tr>
+            <td><input type = "input" name="skill" value = ''></td>
+            <td><input type = "submit" value = "add" /></td>
+        </tr>
+    </table>
+</form>
+
+
+<p></p><h3>Current LinkedIn Skills</h3>
+<table id="1" class="display">
+    <thead>
+        <tr>
+            <td>Skill Name</td>
+            <td>Remove</td>
+        </tr>
+    </thead>
+    <tbody>
+        {%for n in skills%}
+        <tr>
+            <td>{{n['skill']}}</td>
+            <td>
+                <form action = "modify_portfolio" method = "POST">
+                    <input type="hidden" name="whichform" value='deleteskill'>
+                    <input type="hidden" name="skill" value='{{n['skill']}}'>
+                    <input type = "submit" value = "delete" />
+                </form>
+            </td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+
+
+
+<hr /><h2>Education</h2>
+
+<h3>Add New Education</h3>
+<form action = "modify_portfolio" method = "POST">
+    <input type = "hidden" name="whichform" value = 'add_education'>
+    <table>
+        <tr>
+            <th>Area</th>
+            <th>Level</th>
+            <th>Submit</th>
+        </tr>
+        <tr>
+            <td><input type = "input" name="subject" value = ''></td>
+            <td><input type = "input" name="level" value = ''></td>
+            <td><input type = "submit" value = "add" /></td>
+        </tr>
+    </table>
+</form>
+
+
+<p></p><h3>Current Education</h3>
+<table id="3" class="display">
+    <thead>
+        <tr><td>Degree Area</td>
+            <td>Degree Level</td>
+            <td>Remove</td>
+        </tr>
+    </thead>
+    <tbody>
+        {%for n in education%}
+        <tr>
+            <td>{{n['subject']}}</td>
+            <td>{{n['level']}}</td>
+            <td>
+                <form action = "modify_portfolio" method = "POST">
+                    <input type="hidden" name="whichform" value='delete_education'>
+                    <input type="hidden" name="subject" value='{{n['subject']}}'>
+                    <input type="hidden" name="level" value='{{n['level']}}'>
+                    <input type = "submit" value = "delete" />
+                </form>
+            </td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+<h2>Experiences</h2>
+
+
+<h3>Add New Experience</h3>
+<form action = "modify_portfolio" method = "POST">
+    <input type="hidden" name="whichform" value='add_experience'>
+    <table>
+        <tr>
+            <th>Start</th>
+            <th>Stop</th>
+            <th>Title</th>
+            <th>Institution</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Add</th>
+        </tr>
+        <tr>
+            <td><input type = "input" name="start" value = ''></td>
+            <td><input type = "input" name="stop" value = ''></td>
+            <td><input type = "input" name="title" value = ''></td>
+            <td><input type = "input" name="institution" value = ''></td>
+            <td><textarea name="description" value = ''></textarea></td>
+            <td><input type = "input" name="location" value = ''></td>
+            <td><input type = "input" name="category" value = ''></td>
+            <td><input type = "submit" value = "add" /></td>
+        </tr>
+    </table>
+</form>
+
+
+<h3>Current Experiences</h3>
+<table id="2" class="display">
+    <thead>
+        <tr>
+            <th>Start</th>
+            <th>Stop</th>
+            <th>Title</th>
+            <th>Institution</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for n in experiences%}
+        <tr>
+            <td>{{n['start']}}</td>
+            <td>{{n['stop']}}</td>
+            <td>{{n['title']}}</td>
+            <td>{{n['institution']}}</td>
+            <td>{{n['description']}}</td>
+            <td>{{n['location']}}</td>
+            <td>{{n['category']}}</td>
+            <td>
+                <form action = "modify_portfolio" method = "POST">
+                    <input type="hidden" name="whichform" value='delete_experience'>
+                    <input type="hidden" name="ex_id" value='{{n['ex_id']}}'>
+                    <input type = "submit" value = "delete" />
+                </form>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+
+{%endblock%}

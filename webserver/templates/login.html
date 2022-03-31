@@ -6,9 +6,8 @@ You're logged in already!
 
 {% else %}
 <form action="/login" method="POST">
-  <input type="username" name="username" placeholder="Username">
+  <input type="username" name="email" placeholder="email">
 <input type="password" name="password" placeholder="Password">
-<input type="hidden" name="logging_in" value="yes">
 <input type="submit" value="Log in">
 </form>
 {% endif %}

@@ -54,7 +54,7 @@ engine = create_engine(DATABASEURI)
 engine.execute("""DROP TABLE IF EXISTS test;""")
 engine.execute("""CREATE TABLE IF NOT EXISTS test (
   id serial,
-  name text
+  name varchar(15)
 );""")
 engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
 
@@ -163,7 +163,7 @@ def index():
       # render_template looks in the templates/ folder for files.
       # for example, the below file reads template/index.html
       #
-      return render_template("index.html", **context)
+      return render_template("index.html", first_name = session.get('first_name'))
 
 #
 # This is an example of a different path.  You can see it at
@@ -173,23 +173,70 @@ def index():
 # notice that the functio name is another() rather than index()
 # the functions for each app.route needs to have different names
 #
-@app.route('/another')
-def another():
-  return render_template("anotherfile.html")
+@app.route('/portfolio')
+def portfolio():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    
+    cursor1 = g.conn.execute("SELECT * FROM possesses_skills WHERE user_id = %s", session.get('user_id'))
+    cursor2 = g.conn.execute("SELECT * FROM experienced_experiences WHERE user_id = %s ORDER BY start", session.get('user_id'))
+    cursor3 = g.conn.execute("SELECT * FROM earned_degrees WHERE user_id = %s", session.get('user_id'))
+    skills = cursor1.fetchall(); experiences = cursor2.fetchall(); education = cursor3.fetchall()
+    cursor1.close(); cursor2.close(); cursor3.close()
 
-@app.route('/user')
-def user():
-    cursor = g.conn.execute("SELECT title,job_id FROM jobs NATURAL JOIN interested_in NATURAL JOIN users WHERE user_id=1 ORDER BY deadline ASC")
-    titles = []
-    job_ids = []
-    for result in cursor:
-        titles.append(result['title'])  # can also be accessed using result[0]
-        job_ids.append(result['job_id'])
+    usercursor = g.conn.execute("SELECT * FROM users WHERE user_id = %s", session.get('user_id'))
+    userdata = usercursor.fetchone()
+    usercursor.close()
+
+    return render_template("portfolio.html", skills=skills, experiences=experiences, education=education, userdata = userdata)
+
+@app.route('/get_my_resume')
+def get_my_resume():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    
+    cursor1 = g.conn.execute("SELECT * FROM possesses_skills WHERE user_id = %s", session.get('user_id'))
+    cursor2 = g.conn.execute("SELECT * FROM experienced_experiences WHERE user_id = %s ORDER BY start", session.get('user_id'))
+    cursor3 = g.conn.execute("SELECT * FROM earned_degrees WHERE user_id = %s", session.get('user_id'))
+    skills = cursor1.fetchall(); experiences = cursor2.fetchall(); education = cursor3.fetchall()
+    cursor1.close(); cursor2.close(); cursor3.close()
+
+    usercursor = g.conn.execute("SELECT * FROM users WHERE user_id = %s", session.get('user_id'))
+    userdata = usercursor.fetchone()
+    usercursor.close()
+
+    return render_template("get_my_resume.html", skills=skills, experiences=experiences, education=education, userdata=userdata)
+
+@app.route('/contact_book')
+def contact_book():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+
+    #TODO check this SQL
+    cursor = g.conn.execute("SELECT c.title, c.full_name, j.job_id, c.email, j.company, j.title AS jobtitle, j.job_id "
+                            "FROM connection_with_contact_entry AS c JOIN work_at AS w on c.contact_id=w.contact_id "
+                            "JOIN jobs AS j ON w.job_id=j.job_id WHERE user_id = %s",
+                            session.get('user_id'))
+    
+    contacts = cursor.fetchall()
+    cursor.close()
+    
+    job_cursor = g.conn.execute("SELECT job_id,title,company FROM jobs ORDER BY company")
+    all_jobs = job_cursor.fetchall()
+    job_cursor.close()
+
+    return render_template("contact_book.html", contacts=contacts, all_jobs=all_jobs)
+
+@app.route('/account_profile')
+def account_profile():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+
+    cursor = g.conn.execute("SELECT * FROM users WHERE user_id = %s", session.get('user_id'))
+    userdata = cursor.fetchone()
     cursor.close()
 
-    context = dict(titles = titles, job_ids = job_ids)
-
-    return render_template("user.html", **context)
+    return render_template("account_profile.html", userdata=userdata)
 
 
 @app.route('/jobs')
@@ -220,6 +267,37 @@ def jobs():
 
     return render_template("jobs.html", **context)
 
+
+@app.route('/my_jobs')
+def my_jobs():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    
+
+    cursor = g.conn.execute("SELECT * FROM jobs NATURAL JOIN interested_in NATURAL JOIN users WHERE user_id = 2 ORDER BY deadline ASC")
+    job_ids = []
+    companies = []
+    titles = []
+    descriptions = []
+    cities = []
+    states = []
+    deadlines = []
+    for result in cursor:
+        job_ids.append(result['job_id'])
+        companies.append(result['company'])
+        titles.append(result['title'])
+        descriptions.append(result['description'])
+        cities.append(result['city'])
+        states.append(result['state'])
+        deadlines.append(result['deadline'])
+    cursor.close()
+
+    context = dict(job_ids = job_ids, companies=companies, titles=titles, descriptions=descriptions, cities=cities, states=states, deadlines=deadlines)
+
+    return render_template("my_jobs.html", **context)
+
+
+
 @app.route('/job_description',methods = ['POST'])
 def result():
    if request.method == 'POST':
@@ -244,15 +322,65 @@ def add():
   g.conn.execute(text(cmd), name1 = name, name2 = name);
   return redirect('/')
 
+@app.route('/modify_portfolio', methods=['POST'])
+def modify_portfolio():
+    sql_cmds = {'addskill':          'INSERT INTO possesses_skills VALUES (:user_id,:skill)',
+                'deleteskill':       'DELETE FROM possesses_skills WHERE skill=:skill AND user_id=:user_id',
+                'add_education':     'INSERT INTO earned_degrees VALUES (:user_id,:subject,:level)',
+                'delete_education':  'DELETE FROM earned_degrees WHERE (user_id,level,subject)=(:user_id,:level,:subject)',
+                'delete_experience': 'DELETE FROM experienced_experiences WHERE ex_id=:ex_id',
+                'add_experience':    ('INSERT INTO '
+                                      'experienced_experiences(user_id,start,stop,title,description,location,institution,category) '
+                                      'VALUES(:user_id,:start,:stop,:title,:description,:location,:institution,:category)'
+                                     ),
+                'add_contact':       'INSERT INTO connection_with_contact_entry(user_id,full_name,email,title) '
+                                     'VALUES(:user_id,:full_name,:email,:title); '
+
+             }
+    
+    whichform = request.form['whichform']
+    cmd = sql_cmds[whichform]
+    
+    try:
+        g.conn.execute(text(cmd), dict(request.form.to_dict(), user_id = session.get('user_id')))
+        flash('Successfully Modified Portfolio!', 'success')
+
+    except Exception as e:
+        print "uh oh, error with database"
+        import traceback; traceback.print_exc()
+        flash('Failed to modify portfolio!', 'error')
+        flash(e.message, 'warning')
+
+    return redirect('/portfolio')
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.form['password'] == 'password' and request.form['username'] == 'admin':
+    email = request.form['email']
+    password = request.form['password']
+
+    cursor = g.conn.execute("SELECT * FROM users WHERE email = %s", email)
+    if cursor.rowcount == 1:
+        user = cursor.fetchone()
+        print "logged user in"
+
         session['logged_in'] = True
+        session['first_name'] = user['first_name']
+        session['last_name'] = user['last_name']
+        session['user_id'] = user['user_id']
         return index()
+
     else:
-        flash('wrong password!')
+        print "failed login attempt"
         return index()
+
+   # if request.form['password'] == 'password' and request.form['email'] == 'admin':
+   #     session['logged_in'] = True
+   #     session['first_name'] = 'Josh'
+   #     session['user_id'] = 1
+   #     return index()
+   # else:
+   #     flash('wrong password!')
+   #     return index()
 
 @app.route("/logout")
 def logout():
