@@ -9,20 +9,13 @@
             <th>Full Name</th>
             <th>Email</th>
             <th>Title</th>
-            <th>Job Association</th>
+            <th></th>
         </tr>
         <tr>
             <td><input type = "input" name="full_name" value = ''></td>
             <td><input type = "input" name="email" value = ''></td>
             <td><input type = "input" name="title" value = ''></td>
-            <td>
-                <select name="job_id">
-                    {%for job in all_jobs%}
-                    <option value='{{job['job_id']}}'>{{job['title']}} at: {{job['company']}}</option>
-                    {%endfor%}
-                </select>
-            </td>
-            <td><input type = "submit" value = "add" /></td>
+            <td><input type = "submit" class='add' value = "add" /></td>
         </tr>
     </table>
 </form>
@@ -36,16 +29,22 @@
             <th>Email</th>
             <th>Title</th>
             <th>Job Association</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         {%for n in contacts%}
-        {{n}}
         <tr>
             <td>{{n['full_name']}}</td>
             <td>{{n['email']}}</td>
             <td>{{n['title']}}</td>
             <td>Associated with position: {{n['jobtitle']}} at: {{n['company']}}</td>
+            <td>
+                <form action = "modify_portfolio" method = "POST">
+                    <input type="hidden" name="whichform" value='delete_contact'>
+                    <input type="hidden" name="contact_id" value='{{n['contact_id']}}'>
+                    <input type = "submit" class='delete' value = "delete" />
+                </form>
         </tr>
         {%endfor%}
     </tbody>

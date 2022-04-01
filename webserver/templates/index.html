@@ -3,12 +3,5 @@
 
 
 {% block content %}
-<p>Welcome, {{first_name}}.</p>
-
-  <form method="POST" action="/add">
-      <p>Name of new computer scientist:
-      <input type="text" name="name">
-      <input type="submit" value="Add"></p>
-  </form>
-
+<h3>Welcome back, {{user_data['first_name']}}!</h3>
 {% endblock %}

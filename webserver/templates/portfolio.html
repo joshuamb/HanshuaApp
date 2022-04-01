@@ -1,6 +1,11 @@
 {%extends "base.html"%}
 {%block content%}
-<a href="get_my_resume">Get My Plaintext Resume</a> (profile information can be managed through the Account Tab).
+
+
+<form method="post" action="/get_my_resume" target="_blank">
+    <input type="submit" class='update' value='Generate Plaintext Resume'></button>
+</form>
+
 <hr /><h2>Skills</h2>
 
 
@@ -15,7 +20,7 @@
         </tr>
         <tr>
             <td><input type = "input" name="skill" value = ''></td>
-            <td><input type = "submit" value = "add" /></td>
+            <td><input type = "submit" class='add' value = "add" /></td>
         </tr>
     </table>
 </form>
@@ -37,7 +42,7 @@
                 <form action = "modify_portfolio" method = "POST">
                     <input type="hidden" name="whichform" value='deleteskill'>
                     <input type="hidden" name="skill" value='{{n['skill']}}'>
-                    <input type = "submit" value = "delete" />
+                    <input type = "submit" class='delete' value = "delete" />
                 </form>
             </td>
         </tr>
@@ -62,7 +67,7 @@
         <tr>
             <td><input type = "input" name="subject" value = ''></td>
             <td><input type = "input" name="level" value = ''></td>
-            <td><input type = "submit" value = "add" /></td>
+            <td><input type = "submit" class='add' value = "add" /></td>
         </tr>
     </table>
 </form>
@@ -86,7 +91,7 @@
                     <input type="hidden" name="whichform" value='delete_education'>
                     <input type="hidden" name="subject" value='{{n['subject']}}'>
                     <input type="hidden" name="level" value='{{n['level']}}'>
-                    <input type = "submit" value = "delete" />
+                    <input type = "submit" class='delete' value = "delete" />
                 </form>
             </td>
         </tr>
@@ -119,7 +124,7 @@
             <td><textarea name="description" value = ''></textarea></td>
             <td><input type = "input" name="location" value = ''></td>
             <td><input type = "input" name="category" value = ''></td>
-            <td><input type = "submit" value = "add" /></td>
+            <td><input type = "submit" class='add' value = "add" /></td>
         </tr>
     </table>
 </form>
@@ -153,7 +158,7 @@
                 <form action = "modify_portfolio" method = "POST">
                     <input type="hidden" name="whichform" value='delete_experience'>
                     <input type="hidden" name="ex_id" value='{{n['ex_id']}}'>
-                    <input type = "submit" value = "delete" />
+                    <input type = "submit" class='delete' value = "delete" />
                 </form>
         </tr>
         {%endfor%}

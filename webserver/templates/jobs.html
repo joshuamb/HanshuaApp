@@ -1,28 +1,67 @@
 {%extends "base.html"%}
 {%block content%}
-  <div>{{titles}}</div>
-  <div>{{job_ids}}</div>
   <table id='table_id' class="display">
       <thead>
           <tr>
-              <th>company</th>
-              <th>title</th>
-              <th>location</th>
-              <th>deadline</th>
-              <th>...</th>
+              <th rowspan=2>Analysis</th>
+              <th rowspan=2>Company</th>
+              <th rowspan=2>Title</th>
+              <th rowspan=2>Location</th>
+              <th rowspan=2>Deadline</th>
+              <th colspan="3">Add to job lists</th>
+          </tr>
+          <tr>
+              <th>Interested in This Job?</th>
+              <th>Already Applied to This Job?</th>
+              <th>Have An Interview for This Job?</th>
           </tr>
       </thead>
       <tbody>
           {% for id in job_ids %}
           <tr>
+              <td>
+                  <form action = "job_description" method = "POST">
+                      <input type = "hidden" name="job_id" value = '{{job_ids[loop.index-1]}}'>
+                      <button type = "submit">Analyze<br /> This <br /> Listing <br />for Me</button>
+                  </form>
+              </td>
               <td>{{companies[loop.index-1]}}</td>
               <td>{{titles[loop.index-1]}}</td>
               <td>{{cities[loop.index-1]}}, {{states[loop.index-1]}}</td>
               <td>{{deadlines[loop.index-1]}}</td>
               <td>
-                  <form action = "job_description" method = "POST">
+                  <form action = "modify_jobs" method = "POST">
                       <input type = "hidden" name="job_id" value = '{{job_ids[loop.index-1]}}'>
-                      <input type = "submit" value = "more info" />
+                      <input type = "hidden" name='which_table' value = 'interested_in'>
+                      <input type = "hidden" name="which_form" value = 'add'>
+                      <input type = "submit" class='add' value = "Interested" />
+                  </form>
+              </td>
+              <td>
+                  <form action = "modify_jobs" method = "POST">
+                      <input type = "hidden" name="job_id" value = '{{job_ids[loop.index-1]}}'>
+                      <input type = "hidden" name='which_table' value = 'applied'>
+                      <input type = "hidden" name="which_form" value = 'add'>
+                      <table><tr>
+                              <td><input type = "input" name="time" value = '' placeholder='Date Applied'></td>
+                              <td><input type = "submit" class='add' value = "Add to Applied" /></td>
+                          </tr>
+                      </table>
+                  </form>
+              </td>
+              <td>
+                  <form action = "modify_jobs" method = "POST">
+                      <input type = "hidden" name="job_id" value = '{{job_ids[loop.index-1]}}'>
+                      <input type = "hidden" name='which_table' value = 'interview'>
+                      <input type = "hidden" name="which_form" value = 'add'>
+                      <table><tr>
+                              <td><input type = "input" name="time" value = '' placeholder='Interview Date'></td>
+                              <td rowspan=2><input type = "submit" class='add' value = "Add Interview" /></td>
+                          </tr>
+                          <tr>
+                              <td><input type = "input" name="location" value = '' placeholder='Interview Location'></td>
+                          </tr>
+                      </table>
                   </form>
               </td>
           </tr>

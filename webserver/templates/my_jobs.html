@@ -1,28 +1,62 @@
 {%extends "base.html"%}
 {%block content%}
-  <div>{{titles}}</div>
-  <div>{{job_ids}}</div>
-  <table id='table_id' class="display">
+{%if table == 'interview'%}
+<h3>Jobs With Pending Interview</h3>
+{%endif%}
+
+{%if table == 'interested_in'%}
+<h3>Interesting Jobs Pending Further Consideration</h3>
+{%endif%}
+
+{%if table == 'applied'%}
+<h3>Jobs With Pending Application</h3>
+{%endif%}
+
+<table id='table_id' class="display">
       <thead>
           <tr>
+              <th>Analyze</th>
               <th>company</th>
               <th>title</th>
               <th>location</th>
               <th>deadline</th>
-              <th>...</th>
+              {%if table == 'interview'%}
+              <td>Interview Time</td>
+              <td>Interview Location</td>
+              {%endif%}
+              {%if table == 'applied'%}
+              <td>Date Applied</td>
+              {%endif%}
+              <td>Delete</td>
           </tr>
       </thead>
       <tbody>
-          {% for id in job_ids %}
+          {% for n in results %}
           <tr>
-              <td>{{companies[loop.index-1]}}</td>
-              <td>{{titles[loop.index-1]}}</td>
-              <td>{{cities[loop.index-1]}}, {{states[loop.index-1]}}</td>
-              <td>{{deadlines[loop.index-1]}}</td>
               <td>
                   <form action = "job_description" method = "POST">
-                      <input type = "hidden" name="job_id" value = '{{job_ids[loop.index-1]}}'>
-                      <input type = "submit" value = "more info" />
+                      <input type = "hidden" name="job_id" value = '{{n['job_id']}}'>
+                      <button type = "submit">Analyze<br /> This <br /> Listing <br />for Me</button>
+                  </form>
+              </td>
+              <td>{{n['company']}}</td>
+              <td>{{n['title']}}</td>
+              <td>{{n['city']}}, {{n['state']}}</td>
+              <td>{{n['deadline']}}</td>
+              {%if table == 'interview'%}
+              <td>{{n['time']}}</td>
+              <td>{{n['location']}}</td>
+              {%endif%}
+              {%if table == 'applied'%}
+              <td>{{n['time']}}</td>
+              {%endif%}
+ 
+              <td>
+                  <form action = "modify_jobs" method = "POST">
+                      <input type = "hidden" name="job_id" value = '{{n['job_id']}}'>
+                      <input type = "hidden" name='which_table' value = '{{table}}'>
+                      <input type = "hidden" name="which_form" value = 'delete'>
+                      <input type = "submit" class='delete' value = "remove" />
                   </form>
               </td>
           </tr>

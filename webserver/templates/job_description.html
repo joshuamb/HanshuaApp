@@ -1,7 +1,95 @@
 {%extends "base.html"%}
+{% block extrahead %}
+      <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-core.min.js"></script>
+      <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-pie.min.js"></script>
+      <style>
+#any_chart_container1 {
+    width: 100%;
+    height: 400px;
+}
+#any_chart_container2 {
+    width: 100%;
+    height: 400px;
+}
+#any_chart_container3 {
+    width: 100%;
+    height: 400px;
+}
+      </style>
+{% endblock %}
+
+
 {%block content%}
 <h2>{{result['title']}} at {{result['company']}}</h3>
 <p>Desc: {{result['description']}}</p>
 <p>Position based in {{result['city']}}, {{result['state']}}. Please apply before {{result['deadline']}}.</p>
+
+
+<!--https://www.anychart.com/blog/2017/12/06/pie-chart-create-javascript/-->
+<table>
+    <tr>
+        <td><div id="any_chart_container1"></div></td>
+        <td><div id="any_chart_container2"></div></td>
+        <td><div id="any_chart_container3"></div></td>
+    </tr>
+</table>
+
+
+<script>
+    // set the data
+    var data1 = [
+            {% for n in skills_analysis%}
+            {x: "{{n['skill']}}", value: {{n['count']}} },
+            {%endfor%}
+        ];
+    
+    var data2 = [
+            {% for n in education_analysis1%}
+            {x: "{{n['level']}}", value: {{n['count']}} },
+            {%endfor%}
+        ];
+
+    var data3 = [
+            {% for n in education_analysis2%}
+            {x: "{{n['subject']}}", value: {{n['count']}} },
+            {%endfor%}
+        ];
+    
+    anychart.onDocumentReady(function() {
+            // create the chart
+            var chart1 = anychart.pie();
+            // set the chart title
+            chart1.title("Breakdown of skills of all applicants to this position");
+            // add the data
+            chart1.data(data1);
+            // display the chart in the container
+            chart1.container('any_chart_container1');
+            chart1.draw();
+
+
+            // create the chart
+            var chart2 = anychart.pie();
+            // set the chart title
+            chart2.title("Breakdown of education level of all applicants to this position");
+            // add the data
+            chart2.data(data2);
+            // display the chart in the container
+            chart2.container('any_chart_container2');
+            chart2.draw();
+
+            // create the chart
+            var chart3 = anychart.pie();
+            // set the chart title
+            chart3.title("Breakdown of subject area of all applicants to this position");
+            // add the data
+            chart3.data(data3);
+            // display the chart in the container
+            chart3.container('any_chart_container3');
+            chart3.draw();
+
+        });  
+    
+
+</script>
 
 {%endblock%}

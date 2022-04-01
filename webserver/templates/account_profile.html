@@ -1,18 +1,19 @@
 {%extends "base.html"%}
 {%block content%}
-<h2>Acount Info for {{userdata['first_name']}}</p>
-
+<div id='account_form'>
+<h2>Acount Info for {{userdata['first_name']}}</h2>
 <form action = "update_account" method = "POST">
-    <p>User ID     :<input type = "input" name="user_id" value = '{{userdata['user_id']}}' readonly></p>
-    <p>Email       : <input type = "text" name="email" value = '{{userdata['email']}}' readonly></p>
-    <p>First Name  :<input type = "input" name="first_name" value = '{{userdata['first_name']}}'></p>
-    <p>Last Name   :<input type = "input" name="last_name" value = '{{userdata['last_name']}}'></p>
-    <p>Phone Number:<input type = "input" name="phone" value = '{{userdata['phone']}}'></p>
-    <p>Address     :<input type = "input" name="address" value = '{{userdata['address']}}'></p>
-    <p>Bio:        :<input type = "textarea" name="bio" value = '{{userdata['bio']}}'></p>
+    <input type = "hidden" name="user_id" value = '{{userdata['user_id']}}' readonly>
+    <p>Email: <input type = "text" name="email" value = '{{userdata['email']}}' readonly></p>
+    <p>First Name: <input type = "text" name="first_name" value = '{{userdata['first_name']}}'></p>
+    <p>Last Name: <input type = "text" name="last_name" value = '{{userdata['last_name']}}'></p>
+    <p>Phone Number: <input type = "text" name="phone" value = '{{userdata['phone']}}'></p>
+    <p>Address: <input type = "text" name="address" value = '{{userdata['address']}}'></p>
+    <p>Bio: <textarea name="bio">{{userdata['bio']}}</textarea></p>
 
-    <input type = "submit" value = "Update Data" />
+    <input type = "submit" class="update" value = "Update Data" />
 </form>
+</div>
 
 {%endblock%}
 

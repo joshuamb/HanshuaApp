@@ -5,10 +5,43 @@
 You're logged in already!
 
 {% else %}
-<form action="/login" method="POST">
-  <input type="username" name="email" placeholder="email">
-<input type="password" name="password" placeholder="Password">
-<input type="submit" value="Log in">
-</form>
+    
+<table>
+    <tr>
+        <td width=29%>
+            <h2>Login Here</h2>
+            <div id='login'>
+                <form action="/login" method="POST">
+                    <label for="fname">Email Address:</label>
+                    <input type="text" name="email" id="fname" placeholder="email"> <br />
+                <label for="fname">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Password"> <br />
+                <input type="submit" class='login' value="Log in">
+                </form>
+            </div>
+        </td>
+        <td width=69%>
+            <h2>About Our App</h2>
+            <p>Please note that our app is still in alpha testing and user accounts are by invite only. Stay tuned for our beta release!</p>
+            
+            <p>Welcome to the Hanshua Job Hunting App! This is a handy web application designed to take some of the stress out of the job hunt!
+            We scrape relevant jobs from popular job sites like LinkedIn along with information about all the applicants to each of these listings.
+            Our most powerful feature is a high-level analysis of every one of our listings in terms of the education level, area of expertise, and
+            skillset of all other applicants. This means you can tell at a glance how suitable you are for a position or what areas you might need to
+            improve in to be more competitive for certain types of positions. In addition, we offer the following features for a highly integrated job-hunt
+            experience:
+            
+            <ul>
+                <li>A handy, calendar-like way to keep track of all the jobs you might be interested in, the ones you have already applied for,
+                    and the ones for which you have a pending interview (hooray!).</li>
+                <li>A simple address book so you can keep all your job-related contacts in one place!</li>
+                <li>A simplified interface to generate a basic resume for upload to any major job site. The close integration of your
+                    resume with our job analysis feature makes it easy to identify relevant positions and areas of potential improvement.</li>
+            </ul>
+            
+        
+        </td>
+    </tr>
+</table>
 {% endif %}
 {% endblock %}

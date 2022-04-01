@@ -8,9 +8,12 @@
         <!--https://www.topcoder.com/thrive/articles/interactive-html-tables-using-datatables-->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
         <title>{% block title %}Hanshua Job Hunting App{% endblock %}</title>
+
+    {% block extrahead %}
+    {% endblock %}
+    
     </head>
     {% endblock %}
-
     <body>
         <!--flash messages here-->
         <!--flash https://stackoverflow.com/questions/2193670/catching-sqlalchemy-exceptions-->
@@ -29,10 +32,11 @@
         <div class="topnav">
             <a href="/">Home</a>
             <a href="jobs">All Jobs</a>
-            <a href="my_jobs">My Jobs</a>
             <a href="portfolio">Portfolio</a>
+            <a href="my_jobs?table_name=interested_in">Jobs I am Interested In</a>
+            <a href="my_jobs?table_name=applied">Jobs I have Applied For</a>
+            <a href="my_jobs?table_name=interview">Interviews</a>
             <a href="contact_book">Contact Book</a>
-            <a href="about">About</a>
             <a href="account_profile">Account</a>
             <a href="logout">Logout</a>
         </div>
