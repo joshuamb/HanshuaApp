@@ -34,7 +34,7 @@ padding:12px;
 
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #333;
+  background-color: #9E4244;
   overflow: hidden;
 }
 
@@ -103,20 +103,20 @@ input[type=submit]{
 
 
 input.update[type=submit] {
-  background-color: #6495ED;
+  background-color: #960019;
 }
 
 input.login[type=submit] {
-  background-color: #4CAF50;
+  background-color: #9E4244;
 }
 
 
 input.delete[type=submit] {
-  background-color: #FF4433;
+  background-color: #990F02;
 }
 
 input.add[type=submit] {
-  background-color: #4CAF50;
+  background-color: #597D35;
 }
 
 input[type=submit]:hover {

@@ -5,10 +5,10 @@
 <form action = "update_account" method = "POST">
     <input type = "hidden" name="user_id" value = '{{userdata['user_id']}}' readonly>
     <p>Email: <input type = "text" name="email" value = '{{userdata['email']}}' readonly></p>
-    <p>First Name: <input type = "text" name="first_name" value = '{{userdata['first_name']}}'></p>
-    <p>Last Name: <input type = "text" name="last_name" value = '{{userdata['last_name']}}'></p>
+    <p>First Name: <input type = "text" name="first_name" value = '{{userdata['first_name']}}' required></p>
+    <p>Last Name: <input type = "text" name="last_name" value = '{{userdata['last_name']}}' required></p>
     <p>Phone Number: <input type = "text" name="phone" value = '{{userdata['phone']}}'></p>
-    <p>Address: <input type = "text" name="address" value = '{{userdata['address']}}'></p>
+    <p>Address: <input type = "text" name="address" value = '{{userdata['address']}}' required></p>
     <p>Bio: <textarea name="bio">{{userdata['bio']}}</textarea></p>
 
     <input type = "submit" class="update" value = "Update Data" />
