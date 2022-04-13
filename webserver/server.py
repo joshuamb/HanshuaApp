@@ -257,7 +257,8 @@ def update_account():
         print "uh oh, error with database"
         import traceback; traceback.print_exc()
         flash('Failed to modify job lists!', 'error')
-        flash(e.message, 'warning')
+        #flash(e.message, 'warning')
+        flash("Make sure all required fields are entered!", 'warning')
 
     return redirect('/account_profile')
 
@@ -333,7 +334,7 @@ def modify_jobs():
         print "uh oh, error with database"
         import traceback; traceback.print_exc()
         flash('Failed to modify job lists!', 'error')
-        flash(e.message, 'warning')
+        flash("Make sure that your date is properly formatted like mm-dd-yyyy or similar and that you aren't trying to add a job to a list that it's already on!",'warning')
 
     return redirect("my_jobs?table_name="+table)
 
@@ -406,7 +407,7 @@ def modify_portfolio():
         print "uh oh, error with database"
         import traceback; traceback.print_exc()
         flash('Failed to modify portfolio!', 'error')
-        flash(e.message, 'warning')
+        flash('Make sure your dates are properly formatted like mm-dd-yyyy or similar and make sure all required fields are completed!', 'warning')
 
     if whichform=='add_contact' or whichform=='delete_contact':
         return redirect('contact_book')
@@ -433,7 +434,7 @@ def login():
 
     else:
         print "failed login attempt"
-        flash("Login attempt unsuccessful.", 'error')
+        flash("Login attempt unsuccessful. Make sure your username and password are correct.", 'error')
         return index()
 
    # if request.form['password'] == 'password' and request.form['email'] == 'admin':
