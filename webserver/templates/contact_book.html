@@ -28,7 +28,6 @@
             <th>Full Name</th>
             <th>Email</th>
             <th>Title</th>
-            <th>Job Association</th>
             <th>Delete</th>
         </tr>
     </thead>
@@ -38,7 +37,6 @@
             <td>{{n['full_name']}}</td>
             <td>{{n['email']}}</td>
             <td>{{n['title']}}</td>
-            <td>Associated with position: {{n['jobtitle']}} at: {{n['company']}}</td>
             <td>
                 <form action = "modify_portfolio" method = "POST">
                     <input type="hidden" name="whichform" value='delete_contact'>
