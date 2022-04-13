@@ -334,7 +334,7 @@ def modify_jobs():
         print "uh oh, error with database"
         import traceback; traceback.print_exc()
         flash('Failed to modify job lists!', 'error')
-        flash("Make sure that your date is properly formatted like mm-dd-yyyy or similar and that you aren't trying to add a job to a list that it's already on!",'warning')
+        flash("Make sure that you aren't trying to add a job to a list that it's already on! If you you're adding an interview or application date make sure it is properly formatted like mm-dd-yyyy or similar.",'warning')
 
     return redirect("my_jobs?table_name="+table)
 
