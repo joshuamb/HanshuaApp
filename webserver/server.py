@@ -418,7 +418,7 @@ def login():
     email = request.form['email']
     password = request.form['password']
 
-    cursor = g.conn.execute("SELECT * FROM users WHERE email = %s", email)
+    cursor = g.conn.execute("SELECT * FROM users WHERE email = %s AND password = %s", email, password)
     if cursor.rowcount == 1:
         user = cursor.fetchone()
         print "logged user in"
